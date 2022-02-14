@@ -322,7 +322,7 @@
             "type": "boolean",
             "example": "true"
           },
-          "_id": {
+          "id": {
             "description": "The user id.",
             "type": "string",
             "example": "25acd789def..."

@@ -54,13 +54,13 @@ const postRequestValidations = [
     validJWT,
     hasRole(ADMIN_ROLE),
     _nameRequired,
-    _lastNameRequired,
+    //_lastNameRequired,
     _emailRequired,
     _emailValid,
     _emailExist,
     _passwordRequired,
     _roleValid,
-    _dateValid,
+    //_dateValid,
     validationResult
 ]
 
@@ -68,12 +68,12 @@ const putRequestValidations = [
     validJWT,
     hasRole(ADMIN_ROLE),
     _idRequied,
-    _idIsMongoDB,
+    //_idIsMongoDB,
     _idExist,
     _optionalEmailValid,
     _optionalEmailExist,
     _roleValid,
-    _dateValid,
+    //_dateValid,
     validationResult
 ]
 
@@ -81,7 +81,7 @@ const deleteRequestValidations = [
     validJWT,
     hasRole(ADMIN_ROLE),
     _idRequied,
-    _idIsMongoDB,
+    //_idIsMongoDB,
     _idExist,
     validationResult
 ]
@@ -93,7 +93,7 @@ const getAllRequestValidation = [
 const getRequestValidation = [
     validJWT,
     _idRequied,
-    _idIsMongoDB,
+    //_idIsMongoDB,
     _idExist,
     validationResult
 ]
