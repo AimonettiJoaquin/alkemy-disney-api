@@ -1,11 +1,32 @@
 const Actor = require("../models/actor");
-
+const { Op } = require("sequelize");
 class ActorRepository {
   constructor() {}
 
-  //implementar filtros
-  async findAll() {
-    return await Actor.findAll();
+  //implementar filtros de movieTitle
+  async findAll({ name, age, weight, movieTitle }, { limit, offset }) {
+    let where = {};
+    if (name) {
+      where.name = {
+        [Op.substring]: name,
+      };
+    }
+    if (age) {
+      where.age = {
+        [Op.eq]: age,
+      };
+    }
+    if (weight) {
+      where.weight = {
+        [Op.eq]: weight,
+      };
+    }
+    if (movieTitle) {
+      where.movieTitle = {
+        [Op.substring]: movieTitle,
+      };
+    }
+    return await Actor.findAll({ where });
   }
 
   async findById(id) {

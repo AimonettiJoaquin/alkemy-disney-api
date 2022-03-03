@@ -15,7 +15,7 @@ require("../models/actor");
 module.exports = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ /* alter: true */ });
     logger.info("User model were synchronized successfully.");
     const server = new ExpressServer();
     logger.info("Express Loaded");

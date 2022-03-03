@@ -11,11 +11,8 @@ const logger = require("../loaders/logger");
 const getAllActors = async (req, res, next) => {
   try {
     logger.info("Query: " + JSON.stringify(req.query));
-
-    const actor = await actorService.findAll(
-      req.query.filter,
-      req.query.options
-    );
+    const { filter = "", options = "" } = req.query;
+    const actor = await actorService.findAll(filter, options);
     res.json(new Success(actor));
   } catch (err) {
     next(err);
@@ -62,12 +59,12 @@ const updateActor = async (req, res, next) => {
  * @param {express.Response} res
  */
 const getById = async (req, res) => {
-    try {
-        const actor = await actorService.findById(req.params.id);
-        res.json(new Success(actor));
-    } catch (err) {
-        next(err);
-    }
+  try {
+    const actor = await actorService.findById(req.params.id);
+    res.json(new Success(actor));
+  } catch (err) {
+    next(err);
+  }
 };
 
 /**
@@ -76,13 +73,13 @@ const getById = async (req, res) => {
  * @param {express.Response} res
  */
 const deleteActor = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const actor = await actorService.remove(id);
-        res.json(new Success(actor));
-    } catch (err) {
-        next(err);
-    }
+  try {
+    const { id } = req.params;
+    const actor = await actorService.remove(id);
+    res.json(new Success(actor));
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {

@@ -13,7 +13,9 @@ const getAllUsers = async (req, res, next) => {
 
         logger.info('Query: ' + JSON.stringify(req.query));
 
-        const users = await userService.findAll(req.query.filter, req.query.options);
+        const { filter = '', options = '' } = req.query;
+
+        const users = await userService.findAll(filter, options);
         res.json(new Success(users));
         
     } catch (err) {

@@ -1,11 +1,30 @@
 const Movie = require("../models/movie");
+const { Op } = require("sequelize");
 
 class MovieRepository {
   constructor() {}
 
-  //implementar filtros
-  async findAll() {
-    return await Movie.findAll();
+  async findAll({ title, genre }, {limit, offset, order}) {
+    let where = {};
+    if (title) {
+      where.title = {
+        [Op.substring]: title,
+      };
+    }
+    if (genre) {
+      where.genre = {
+        [Op.substring]: genre,
+      };
+    }
+    
+    let config ={
+      where,
+      attributes: ["title", "image", "creationDate"],  
+    }
+    if(order){
+      config.order = [['creationDate',order]];
+    }
+    return await Movie.findAll(config);
   }
 
   async findById(id) {

@@ -12,11 +12,10 @@ const getAllMovies = async (req, res, next) => {
   try {
     logger.info("Query: " + JSON.stringify(req.query));
 
-    const movie = await movieService.findAll(
-      req.query.filter,
-      req.query.options
-    );
-    res.json(new Success(movie));
+    const { filter = '', options = '' } = req.query;
+
+    const movies = await movieService.findAll(filter, options);
+    res.json(new Success(movies));
   } catch (err) {
     next(err);
   }
@@ -62,12 +61,12 @@ const updateMovie = async (req, res, next) => {
  * @param {express.Response} res
  */
 const getById = async (req, res) => {
-    try {
-        const movie = await movieService.findById(req.params.id);
-        res.json(new Success(movie));
-    } catch (err) {
-        next(err);
-    }
+  try {
+    const movie = await movieService.findById(req.params.id);
+    res.json(new Success(movie));
+  } catch (err) {
+    next(err);
+  }
 };
 
 /**
@@ -76,13 +75,13 @@ const getById = async (req, res) => {
  * @param {express.Response} res
  */
 const deleteMovie = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const movie = await movieService.remove(id);
-        res.json(new Success(movie));
-    } catch (err) {
-        next(err);
-    }
+  try {
+    const { id } = req.params;
+    const movie = await movieService.remove(id);
+    res.json(new Success(movie));
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {
