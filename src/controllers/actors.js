@@ -1,7 +1,9 @@
 const express = require("express");
 const actorService = require("../services/actorService");
+const imageService = require("../services/imageService");
 const Success = require("../handlers/successHandler");
 const logger = require("../loaders/logger");
+
 
 /**
  *
@@ -81,6 +83,23 @@ const deleteActor = async (req, res, next) => {
     next(err);
   }
 };
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ */
+const uploadActorImage = async (req, res, next) => {
+  try {
+    const actorId = req.body.id;
+    const image = req.file;
+    
+    res.json(new Success(await imageService.uploadActorImage(actorId,image)));
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 
 module.exports = {
   getAllActors,
@@ -88,4 +107,5 @@ module.exports = {
   updateActor,
   getById,
   deleteActor,
+  uploadActorImage
 };
