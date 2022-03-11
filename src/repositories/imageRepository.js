@@ -12,7 +12,7 @@ class ImageRepository {
   }
 
   uploadImage(name, image, type) {
-    const Key = `${name}.${type.split('/')[1]}`;
+    const Key = `${name}.${type.split("/")[1]}`;
     return new Promise((resolve, reject) => {
       const params = {
         Bucket: config.aws.s3BucketName,
@@ -28,6 +28,24 @@ class ImageRepository {
         }
 
         resolve(`https://${config.aws.s3BucketName}.s3.amazonaws.com/${Key}`);
+      });
+    });
+  }
+
+  deleteImage(Key) {
+    Key = Key.split("/")[3];
+    return new Promise((resolve, reject) => {
+      const params = {
+        Bucket: config.aws.s3BucketName,
+        Key,
+      };
+
+      this.s3.deleteObject(params, (err, data) => {
+        if (err) {
+          reject(new AppError(err.message, 502));
+        }
+
+        resolve(true);
       });
     });
   }

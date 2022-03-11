@@ -8,18 +8,30 @@ const movieRepository = new MovieRepository();
 
 const uploadActorImage = async (idActor, file) => {
   const actor = await actorRepository.findById(idActor);
-  const imageURL = await imageRepository.uploadImage(actor.name, file.buffer, file.mimetype);
-  logger.info(`Image URL: ${imageURL}`);
-  actor.image = imageURL;
-  return await actorRepository.update(idActor, {image: imageURL});
+  if (actor.image) {
+    await imageRepository.deleteImage(actor.image);
+  }
+
+  const imageURL = await imageRepository.uploadImage(
+    actor.name,
+    file.buffer,
+    file.mimetype
+  );
+  return await actorRepository.update(idActor, { image: imageURL });
 };
 
-const uploadMovieImage = async (idMovie, image) => {
+const uploadMovieImage = async (idMovie, file) => {
   const movie = await movieRepository.findById(idMovie);
-  const imageURL = await imageRepository.uploadImage(movie.title, image);
-  movie.image = imageURL;
-  logger.info(`Image Location: ${imageURL}`);
-  return await movieRepository.update(idMovie, movie);
+
+  if (movie.image) {
+    await imageRepository.deleteImage(movie.image);
+  }
+  const imageURL = await imageRepository.uploadImage(
+    movie.title,
+    file.buffer,
+    file.mimetype
+  );
+  return await movieRepository.update(idMovie, { image: imageURL });
 };
 
 module.exports = {

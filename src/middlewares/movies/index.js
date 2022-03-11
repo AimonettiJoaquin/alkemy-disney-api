@@ -1,9 +1,11 @@
 const { check } = require("express-validator");
+const multer = require("multer");
+const upload = multer();
 const AppError = require("../../errors/appError");
 const movieService = require("../../services/movieService");
-const { ROLES, ADMIN_ROLE } = require("../../constants");
+const { ROLES, ADMIN_ROLE, USER_ROLE } = require("../../constants");
 const logger = require("../../loaders/logger");
-const { validationResult } = require("../commons");
+const { validationResult, imageRequired } = require("../commons");
 const { validJWT, hasRole } = require("../auth");
 
 const _roleValid = check("role")
@@ -15,6 +17,7 @@ const _roleValid = check("role")
   });
 
 const _idRequied = check("id").not().isEmpty();
+const _idIsNumeric = check("id").isNumeric();
 const _idExist = check("id").custom(async (id = "") => {
   const mFound = await movieService.findById(id);
   if (!mFound) {
@@ -76,6 +79,16 @@ const deleteRequestValidations = [
   _idExist,
   validationResult,
 ];
+const postImageRequestValidations = [
+  validJWT,
+  hasRole(USER_ROLE, ADMIN_ROLE),
+  upload.single('image'),
+  _idRequied,
+  _idIsNumeric,
+  _idExist,
+  imageRequired,
+  validationResult,
+];
 
 const getAllRequestValidation = [validJWT];
 
@@ -87,4 +100,5 @@ module.exports = {
   getAllRequestValidation,
   getRequestValidation,
   deleteRequestValidations,
+  postImageRequestValidations
 };

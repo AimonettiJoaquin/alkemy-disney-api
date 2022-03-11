@@ -1,5 +1,7 @@
 const ActorRepository = require('../repositories/actorRepository');
 const repository = new ActorRepository();
+const ImageRepository = require("../repositories/imageRepository");
+const imageRepository = new ImageRepository();
 
 const findById = async(id) => {
     return await repository.findById(id);
@@ -26,6 +28,8 @@ const update = async(id, a) => {
 }
 
 const remove = async(id) => {
+    const a = await repository.findById(id)
+    imageRepository.deleteImage(a.image)
     return await repository.remove(id);
 }
 

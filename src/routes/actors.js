@@ -1,6 +1,6 @@
 const { Router } = require("express");
-const multer = require("multer");
-const upload = multer();
+
+
 const {
   getAllActors,
   createActor,
@@ -15,6 +15,7 @@ const {
   getAllRequestValidation,
   getRequestValidation,
   deleteRequestValidations,
+  postImageRequestValidations
 } = require("../middlewares/actors");
 
 const router = Router();
@@ -24,6 +25,6 @@ router.post("/", postRequestValidations, createActor);
 router.put("/:id(\\d+)/", putRequestValidations, updateActor);
 router.get("/:id(\\d+)/", getRequestValidation, getById);
 router.delete("/:id(\\d+)/", deleteRequestValidations, deleteActor);
-router.post("/image", upload.single("image"), uploadActorImage);
+router.post("/image", postImageRequestValidations, uploadActorImage);
 
 module.exports = router;

@@ -16,7 +16,7 @@ module.exports = async () => {
   try {
     await sequelize.authenticate();
     await sequelize.sync({ /* alter: true */ });
-    logger.info("User model were synchronized successfully.");
+    logger.info("Models were synchronized successfully.");
     const server = new ExpressServer();
     logger.info("Express Loaded");
     logger.info("DB loaded and connected");

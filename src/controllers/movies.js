@@ -1,5 +1,6 @@
 const express = require("express");
 const movieService = require("../services/movieService");
+const imageService = require("../services/imageService");
 const Success = require("../handlers/successHandler");
 const logger = require("../loaders/logger");
 
@@ -12,7 +13,7 @@ const getAllMovies = async (req, res, next) => {
   try {
     logger.info("Query: " + JSON.stringify(req.query));
 
-    const { filter = '', options = '' } = req.query;
+    const { filter = "", options = "" } = req.query;
 
     const movies = await movieService.findAll(filter, options);
     res.json(new Success(movies));
@@ -84,10 +85,27 @@ const deleteMovie = async (req, res, next) => {
   }
 };
 
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ */
+const uploadMovieImage = async (req, res, next) => {
+  try {
+    const movieId = req.body.id;
+    const image = req.file;
+
+    res.json(new Success(await imageService.uploadMovieImage(movieId, image)));
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAllMovies,
   createMovie,
   updateMovie,
   getById,
   deleteMovie,
+  uploadMovieImage
 };

@@ -26,7 +26,10 @@ class ActorRepository {
         [Op.substring]: movieTitle,
       };
     }
-    return await Actor.findAll({ where });
+    return await Actor.findAll({
+      where,
+      attributes: ["name", "image"],
+    });
   }
 
   async findById(id) {
