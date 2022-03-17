@@ -18,7 +18,7 @@ const _roleValid = check("role")
     }
   });
 
-const _idRequied = check("id").not().isEmpty();
+const _idRequired = check("id").not().isEmpty();
 const _idExist = check("id").custom(async (id = "") => {
   const actorFound = await actorService.findById(id);
   if (!actorFound) {
@@ -55,7 +55,7 @@ const postRequestValidations = [
 const putRequestValidations = [
   validJWT,
   hasRole(ADMIN_ROLE),
-  _idRequied,
+  _idRequired,
   _idExist,
   _idIsNumeric,
   _weightIsNumeric,
@@ -66,7 +66,7 @@ const putRequestValidations = [
 const deleteRequestValidations = [
   validJWT,
   hasRole(ADMIN_ROLE),
-  _idRequied,
+  _idRequired,
   _idExist,
   validationResult,
 ];
@@ -75,7 +75,7 @@ const getAllRequestValidation = [validJWT];
 
 const getRequestValidation = [
   validJWT,
-  _idRequied,
+  _idRequired,
   _idIsNumeric,
   _idExist,
   validationResult,
@@ -85,7 +85,7 @@ const postImageRequestValidations = [
   validJWT,
   hasRole(USER_ROLE, ADMIN_ROLE),
   upload.single('image'),
-  _idRequied,
+  _idRequired,
   _idIsNumeric,
   _idExist,
   imageRequired,

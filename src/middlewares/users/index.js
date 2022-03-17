@@ -37,8 +37,8 @@ const _roleValid = check('role').optional().custom(
 );
 const _dateValid = check('birthdate').optional().isDate('MM-DD-YYYY');
 
-const _idRequied = check('id').not().isEmpty();
-const _idIsMongoDB = check('id').isMongoId();
+const _idRequired = check('id').not().isEmpty();
+const _idIsNumeric = check("id").isNumeric();
 const _idExist = check('id').custom(
     async (id = '') => {
         const userFound = await userService.findById(id);
@@ -47,6 +47,7 @@ const _idExist = check('id').custom(
         }
     }
 );
+
 
 
 
@@ -67,21 +68,20 @@ const postRequestValidations = [
 const putRequestValidations = [
     validJWT,
     hasRole(ADMIN_ROLE),
-    _idRequied,
-    //_idIsMongoDB,
+    _idRequired,
+    _idIsNumeric,
     _idExist,
     _optionalEmailValid,
     _optionalEmailExist,
     _roleValid,
-    //_dateValid,
     validationResult
 ]
 
 const deleteRequestValidations = [
     validJWT,
     hasRole(ADMIN_ROLE),
-    _idRequied,
-    //_idIsMongoDB,
+    _idRequired,
+    _idIsNumeric,
     _idExist,
     validationResult
 ]
@@ -92,16 +92,18 @@ const getAllRequestValidation = [
 
 const getRequestValidation = [
     validJWT,
-    _idRequied,
-    //_idIsMongoDB,
+    _idRequired,
+    _idIsNumeric,
     _idExist,
     validationResult
 ]
+
+
 
 module.exports = {
     postRequestValidations,
     putRequestValidations,
     getAllRequestValidation,
     getRequestValidation,
-    deleteRequestValidations
+    deleteRequestValidations,
 }

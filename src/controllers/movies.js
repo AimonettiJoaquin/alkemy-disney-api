@@ -27,6 +27,20 @@ const getAllMovies = async (req, res, next) => {
  * @param {express.Request} req
  * @param {express.Response} res
  */
+const getById = async (req, res) => {
+  try {
+    const movie = await movieService.findById(req.params.id);
+    res.json(new Success(movie));
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ */
 const createMovie = async (req, res, next) => {
   try {
     let m = req.body;
@@ -51,20 +65,6 @@ const updateMovie = async (req, res, next) => {
     const movieUpdated = await movieService.update(id, m);
 
     res.json(new Success(movieUpdated));
-  } catch (err) {
-    next(err);
-  }
-};
-
-/**
- *
- * @param {express.Request} req
- * @param {express.Response} res
- */
-const getById = async (req, res) => {
-  try {
-    const movie = await movieService.findById(req.params.id);
-    res.json(new Success(movie));
   } catch (err) {
     next(err);
   }
@@ -101,11 +101,29 @@ const uploadMovieImage = async (req, res, next) => {
   }
 };
 
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ */
+const associatedActor = async (req, res, next) => {
+  try {
+    const { idMovie, idActor } = req.params;
+
+    await movieService.associate(idMovie, idActor);
+
+    res.json(new Success());
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAllMovies,
   createMovie,
   updateMovie,
   getById,
   deleteMovie,
-  uploadMovieImage
+  uploadMovieImage,
+  associatedActor,
 };

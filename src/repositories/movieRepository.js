@@ -1,10 +1,11 @@
 const Movie = require("../models/movie");
+const Actor = require("../models/actor");
 const { Op } = require("sequelize");
 
 class MovieRepository {
   constructor() {}
 
-  async findAll({ title, genre }, {limit, offset, order}) {
+  async findAll({ title, genre }, { limit, offset, order }) {
     let where = {};
     if (title) {
       where.title = {
@@ -16,13 +17,13 @@ class MovieRepository {
         [Op.substring]: genre,
       };
     }
-    
-    let config ={
+
+    let config = {
       where,
-      attributes: ["title", "image", "creationDate"],  
-    }
-    if(order){
-      config.order = [['creationDate',order]];
+      attributes: ["title", "image", "creationDate"],
+    };
+    if (order) {
+      config.order = [["creationDate", order]];
     }
     return await Movie.findAll(config);
   }
@@ -30,6 +31,7 @@ class MovieRepository {
   async findById(id) {
     return await Movie.findByPk(id);
   }
+
 
   async findByTitle(title) {
     return await Movie.findOne({ where: { title } });
