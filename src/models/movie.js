@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../loaders/sequelize");
-/* const Actor = require("./actor"); */
+
 
 const Movie = sequelize.define(
   "Movies",

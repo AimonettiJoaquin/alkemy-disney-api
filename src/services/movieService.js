@@ -4,7 +4,7 @@ const repository = new MovieRepository();
 const actorRepository = new ActorRepository();
 
 const findById = async (id) => {
-  return await repository.findById(id);
+  return await repository.findByIdActors(id);
 };
 
 const findByTitle = async (title) => {

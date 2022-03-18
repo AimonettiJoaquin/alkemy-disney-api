@@ -16,15 +16,12 @@ const _roleValid = check("role")
       throw new AppError("Ivalid Role", 400);
     }
   });
-
-/* const _idRequied = check("id").not().isEmpty();
-const _idIsNumeric = check("id").isNumeric(); */
-/* const _idExist = check("id").custom(async (id = "") => {
+const _idExist = check("id").custom(async (id = "") => {
   const mFound = await movieService.findById(id);
   if (!mFound) {
     throw new AppError("The id does not exist in DB", 400);
   }
-}); */
+});
 
 const _dateIsDateAndOptional = check("creationDate").optional().isDate();
 const _dateRequired = check("creationDate").not().isEmpty();
@@ -127,8 +124,9 @@ const getAllRequestValidation = [validJWT];
 
 const getRequestValidation = [
   validJWT,
-  _idRequired,
-  _idMovieExist,
+  _idRequired("id"),
+  _idIsNumeric("id"),
+  _idExist,
   validationResult,
 ];
 

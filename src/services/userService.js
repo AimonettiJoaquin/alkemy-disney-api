@@ -11,7 +11,6 @@ const findByEmail = async(email) => {
 
 
 const findAll = async(filter, options) => {
-    //return await repository.findAllWithPagination(filter, options);
     return await repository.findAll(filter, options)
 }
 

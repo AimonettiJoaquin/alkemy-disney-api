@@ -1,7 +1,6 @@
 const AWS = require("aws-sdk");
 const config = require("../config");
 const AppError = require("../errors/appError");
-const logger = require("../loaders/logger");
 
 class ImageRepository {
   constructor() {

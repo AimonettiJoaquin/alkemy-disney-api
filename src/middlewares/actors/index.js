@@ -4,7 +4,6 @@ const upload = multer();
 const AppError = require("../../errors/appError");
 const actorService = require("../../services/actorService");
 const { ROLES, ADMIN_ROLE, USER_ROLE } = require("../../constants");
-const logger = require("../../loaders/logger");
 const { validationResult, imageRequired } = require("../commons");
 const { validJWT, hasRole } = require("../auth");
 
@@ -29,18 +28,8 @@ const _ageIsNumeric = check("age").optional().isNumeric();
 const _idIsNumeric = check("id").isNumeric();
 const _weightIsNumeric = check("weight").optional().isNumeric();
 const _historyRequired = check("history").not().isEmpty();
-const _imageRequired = check("image").not().isEmpty();
 
-/* const uploadImage = () => {
-    return (req, res, next) => {
-      try {
-        upload.single('image');
-        next();
-      } catch (err) {
-        next(err);
-      }
-    };
-  }; */
+
 
 const postRequestValidations = [
   validJWT,
