@@ -1,41 +1,39 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/user');
+const bcrypt = require("bcrypt");
+const User = require("../models/user");
 
 class UserRepository {
+  constructor() {}
 
-    constructor(){
+  async findAll() {
+    return await User.findAll();
+  }
 
-    }
+  async findById(id) {
+    return await User.findByPk(id);
+  }
 
+  async findByEmail(email) {
+    return await User.findOne({where:{email}  });
+  }
 
-    async findAll(){
-        return await User.find();
-    }
+  async save(user) {
+    user.password = await bcrypt.hash(user.password, 10);
+    return await User.create(user);
+  }
 
-    async findAllWithPagination(filter, options){
-        return await User.paginate(filter, options);
-    }
+  async update(id, user) {
+    return await User.update(user, {
+      where: { id },
+    });
+  }
 
-    async findById(id) {
-        return await User.findById(id);
-    }
-    
-    async findByEmail(email) {
-        return await User.findOne({email});
-    }
-
-    async save(user) {
-        user.password = await bcrypt.hash(user.password, 10);
-        return await User.create(user);
-    }
-
-    async update(id, user){
-        return await User.findByIdAndUpdate(id, user, {new : true});
-    }
-
-    async remove(id) {
-        return await User.findByIdAndRemove(id);
-    }
+  async remove(id) {
+    return await User.destroy({
+      where: {
+        id,
+      },
+    });
+  }
 }
 
 module.exports = UserRepository;
